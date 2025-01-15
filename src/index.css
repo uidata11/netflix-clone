@@ -12,3 +12,13 @@
 ul {
   list-style: none;
 }
+input {
+  border: 1px solid;
+  padding: 10px;
+  background-color: whitesmoke;
+  color: black;
+}
+button {
+  color: black;
+  background-color: whitesmoke;
+}
