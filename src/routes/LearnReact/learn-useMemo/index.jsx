@@ -30,26 +30,29 @@ const LearnUseMemo = () => {
   //   };
   const ref = useRef();
 
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
+  const onSubmit = useCallback((e) => {
+    e.preventDefault();
 
-      if (stateMessage) {
-        alert(stateMessage);
-        setTimeout(() => {
-          ref.current.showPicker();
-        }, 500);
-        return;
-      }
-      alert(`상품을 ${state}`)
+    if (stateMessage) {
+      alert(stateMessage);
+      setTimeout(() => {
+        ref.current.showPicker();
+      }, 500);
+      return;
     }
-    [state, stateMessage, ref]
-  );
+    alert(`상품을 ${state}`);
+  });
 
   return (
     <div>
       <form action="" onSubmit={onsubmit}></form>
-      <select name="" id="" onChange={(e) => setState(Number(e.target.value))} ref={ref} value={state}>
+      <select
+        name=""
+        id=""
+        onChange={(e) => setState(Number(e.target.value))}
+        ref={ref}
+        value={state}
+      >
         <option value=""></option>
         <option value="1">1</option>
         <option value="5">5</option>
