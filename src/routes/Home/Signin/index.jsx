@@ -1,209 +1,126 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useMyContext } from "../../contextApi/ContextProvider";
+import { users } from "../../assets/fakebase";
+import Input from "../../components/ui/Input";
+import { useNavigate } from "react-router-dom";
 
-const index = () => {
-  const [number, setNumber] = useState(0);
-  const onMinus = () => {
-    setNumber((prev) => {
-      return prev - 1;
-    });
-  };
-  const onReset = () => {
-    setNumber(0);
-  };
-  const onPlus = () => {
-    setNumber(0);
-    return prev + 1;
-  };
-  const [boolean, setBoolean] = useState(false);
-  const [boolean2, setBoolean2] = useState(false);
-  const [boolean3, setBoolean3] = useState(false);
+const Signin = () => {
+  const navi = useNavigate();
 
-  const onSwitch1 = () => {
-    setBoolean((prev) => {
-      // boolean 타입은 모/도 참/거짓
-      // !boolean => boolean의 반대값
-      return !prev;
-    });
-  };
-  const onSwitch2 = () => {
-    setBoolean((prev) => {
-      // boolean 타입은 모/도 참/거짓
-      // !boolean => boolean의 반대값
-      return !prev;
-    });
-  };
-  const onSwitch3 = () => {
-    setBoolean((prev) => {
-      // boolean 타입은 모/도 참/거짓
-      // !boolean => boolean의 반대값
-      return !prev;
-    });
-  };
-  const onMasterSwitch = () => {
-    setBoolean(false);
-    setBoolean2(false);
-    setBoolean3(false);
-  };
-  const [obj, setObj] = useState({ last: "강", first: "찬희" });
-  const [first, setFirst] = useState();
-  const [last, setLast] = useState();
+  const { email } = useMyContext();
+  const [value, setValue] = useState(email);
+  const [pwd, setPwd] = useState("");
 
-  const onSubmitObj = () => {
-    const newFirstaName = "빈";
-    const newLastName = " 원";
-  };
-
-  const newName = {
-    last: newFirstaName,
-    first: newLastName,
-  };
-
-  const [array, setArray] = useState(["a", "b", "c", "b"]);
-
-  const onAddArray = () => {
-    // 만약에 string 이라는 변수가 길이가 0일때가 아무것도 입력하지 않은 때인데 이떄는 안댐
-    setArray([]);
-    if (string.length === 0) {
-      alert("l");
+  const emailMessage = useMemo(() => {
+    if (value.length === 0) {
+      return "이메일을 입력해주세요.";
     }
-    setArray((prev) => {
-      let copy = [...prev, string];
-      console.log(copy);
-      return [...prev.string];
-    });
-    const found = array.find((item) => item === string);
-    if (found) {
-      return alert("중복된 값");
-    }
-  };
-  const [objArray, setObjArray] = useState([
-    { l: "김", f: "영화" },
-    { l: "이", f: "형진" },
-    { l: "강", f: "찬희" },
-  ]); // () 안에 초기값입력해야함
-  const onObjArray = () => {
-    const kyh = objArray[0];
-    const lhj = objArray[1];
 
-    const found = objArray.find((person) => {
-      const newPerson = { l: last, f: first };
-      const isSame = isSamePerson(newPerson, person);
-      if (isSame) {
-        return person;
+    if (!value.includes("@")) {
+      return "@를 포함해주세요.";
+    }
+
+    const split = value.split("@");
+
+    // split[0] = 이메일 앞주소
+    // split[1] = @뒤의 주소
+
+    if (!split[1].includes(".")) {
+      return "이메일 주소를 확인해주세요.";
+    }
+
+    const split2 = split[1].split(".");
+
+    if (split2[1].length === 0) {
+      return "이메일 주소의 마지막 자리를 확인해주세요.";
+    }
+
+    return null;
+  }, [value]);
+
+  const pwdMessage = useMemo(() => {
+    const length = pwd.length;
+    if (length === 0) {
+      return "비밀번호를 입력해주세요.";
+    }
+
+    if (length <= 4) {
+      return "비밀번호가 너무 짧습니다. 5~12자리로 작성해주세요.";
+    }
+
+    if (length > 12) {
+      return "비밀번호가 너무 깁니다. 5~12자리로 작성해주세요.";
+    }
+
+    return null;
+  }, [pwd]);
+
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (emailMessage) {
+        return alert(emailMessage);
       }
-    });
+      if (pwdMessage) {
+        return alert(pwdMessage);
+      }
 
-    console.log(isSamePerson(kyh, lhj));
-    const found = objArray.find((person) => person === { l: last, f: first });
-    if (found) {
-      return alert("same");
-    }
-    alert(" new");
-    setObjArray([
-      (p) => {
-        return p;
-      },
-    ]); // () 안에 초기값과 똑같은 타입을 넣어줘야함
-  };
+      const foundEmail = users.find((user) => {
+        if (user.email === value) {
+          return user;
+        }
+        return;
+      });
+      if (!foundEmail) {
+        return alert("존재하지 않는 유저입니다.");
+      }
 
-  useEffect(() => {
-    console.log({
-      objArray,
-      array,
-    });
-  }, [objArray, array]);
+      const foundPwd = users.find((user) => {
+        if (user.password === pwd) {
+          return user;
+        }
+        return;
+      });
+      if (!foundPwd) {
+        return alert("비밀번호가 일치하지 않습니다.");
+      }
+
+      console.log("환영합니다.");
+      navi("/");
+    },
+    [emailMessage, pwdMessage, value, pwd, navi]
+  );
+
   return (
     <div>
-      <h1>Signin</h1>
-      <input
-        type="text"
-        value={string}
-        onChange={(e) => (setString = e.target.value)}
-      />
-      <button onClick={onChangeString}>Change String</button>
-      <div>
-        <button onClick={onMinus}>-</button>
-        <button onClick={onReset}>{number}</button>
-        <button onClick={onPlus}>+</button>
-      </div>
-      <div>
-        <p>Switch is (boolean ? "On" : "OFF")</p>
-        <button onClick={onSwitch1}>Switch</button>
-      </div>
-      <div>
-        <p>Switch is (boolean ? "On" : "OFF")</p>
-        <button onClick={onSwitch2}>Switch</button>
-      </div>
-      <div>
-        <p>Switch is (boolean ? "On" : "OFF")</p>
-        <button onClick={onSwitch3}>Switch</button>
-      </div>
-      <button onClick={onMasterSwitch}>Master Switch</button>
-      <div>
-        <p>
-          {obj.last}
-          {obj.first}
-        </p>
-        <input
-          value={last}
-          onChange={(e) => {
-            setLast(e.target.value);
-          }}
-          type="text"
-          className="bg-gray-100 outling-none border-none border rounded hover:bg-gray-900 hover:text-white"
-          placeholder="새로운 성을 입력"
-          onChange={(e) => (setString = e.target.value)}
+      <form action="" onSubmit={onSubmit}>
+        <Input
+          id="email"
+          placeholder={"이메일 주소"}
+          setValue={setValue}
+          value={value}
         />
-        <input
-          value={first}
-          onChange={(e) => {
-            setFirst(e.target.value);
-          }}
-          type="text"
-          className="bg-gray-100 outling-none border-none border rounded hover:bg-gray-900 hover:text-white"
-          placeholder="새로운 성을 입력"
-          onChange={(e) => (setString = e.target.value)}
+        <Input
+          id="pwd"
+          placeholder={"비밀번호"}
+          setValue={setPwd}
+          value={pwd}
+          type="password"
         />
-        <button onClick={onSubmitObj}>접수</button>
-      </div>
 
-      <div>
-        <input type="text" name="" id="" />
-        <button onClick={on}></button>
-      </div>
-      <div>
-        <button onClick={onObjArray}>Check Obj Array</button>
-      </div>
+        <button>로그인</button>
+        <button type="button">비밀번호를 잊으셨나요?</button>
+        <div>
+          <input type="checkbox" name="" id="check1" />
+          <label htmlFor="check1">로그인 정보 저장</label>
+        </div>
+        <button>
+          Netflix 회원이 아닌가요? <span>지금 가입하세요.</span>
+        </button>
+      </form>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
     </div>
   );
 };
 
-export default index;
-
-const isSamePerson = (p1, p2) => {
-  const name1 = `${p1.l}${p1.f}`;
-  const name2 = `${p2.l}${p2.f}`;
-  if (name1 === name2) {
-    return true;
-  }
-  return false;
-};
-
-// 문자열과 문자열 비교 간단합니다 === // !== 같은지 다른지
-
-// 숫자 비교는 ===, !==, <, >, <=, >=
-
-// null, undefinded 는 비교할것도없고
-
-// 객체와 객체. 객체의 모든 값을 하나하나 일일이 비교해줘야한다.
-
-const a = {
-  name: "gogo",
-  age: 20,
-  mobile: "010",
-};
-const b = {
-  name: "roro",
-  age: 22,
-  mobile: "010",
-};
+export default Signin;

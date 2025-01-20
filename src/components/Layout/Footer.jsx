@@ -1,6 +1,6 @@
 import React from "react";
 import { fMenus } from "../../assets/fakebase";
-import { Button } from "../ui/Button";
+import { Button } from "../ul/Button";
 import { HiLanguage } from "react-icons/hi2";
 import OpenColor from "open-color";
 import FooterItem from "./FooterItem";

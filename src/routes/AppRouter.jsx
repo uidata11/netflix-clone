@@ -12,6 +12,7 @@ import FAQ from "./FAQ";
 // import PDSample from "./LearnReact/props-drilling/sample1";
 // import PropsDrilling2 from "./props-drilling";
 import ContactUs from "./ContactUs/index";
+// import Start from "./Home/Start";
 
 const AppRouter = () => {
   return (
@@ -34,8 +35,9 @@ const AppRouter = () => {
 
           <Route path="props-drilling" element={<PDSample />} />
         // </Route> */}
-        // <Route path="todo" element={<Todo />} />
-        // <Route path="props-drilling" element={<PropsDrilling2 />} />
+        {/* // <Route path="todo" element={<Todo />} /> */}
+        {/* // <Route path="props-drilling" element={<PropsDrilling2 />} /> */}
+        {/* // <Route path="start" element={<Start />} /> */}
       </Routes>
     </BrowserRouter>
   );

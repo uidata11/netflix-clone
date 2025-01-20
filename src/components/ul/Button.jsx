@@ -11,7 +11,7 @@ const Button = (onClick, type, children, style) => {
       style={{
         padding: "5px 10px",
         background: OpenColor.red[7],
-        fontSize: size === "sm" ? 12 : size === "lg" ? 20 : 100,
+        // fontSize: size === "sm" ? 12 : size === "lg" ? 20 : 100,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

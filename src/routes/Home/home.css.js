@@ -10,9 +10,9 @@ const styles = {
   h1: style({
     fontSize: 100,
     fontWeight: 900,
-    color: "tomato",
+    color: "#d31717",
     ":hover": {
-      color: "blue",
+      color: "#b60f0f",
     },
   }),
   input: {

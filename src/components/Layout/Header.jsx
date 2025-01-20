@@ -4,7 +4,7 @@ import { RiNetflixFill } from "react-icons/ri";
 import OpenColor from "open-color";
 import { useLocation } from "react-router-dom";
 import { user } from "../../assets/fakebase";
-import { Button } from "../ul/Button";
+// import { Button } from "../ul/Button";
 
 const Header = () => {
   // const navi = useNavigate();
@@ -37,6 +37,7 @@ const Header = () => {
           color: OpenColor.red[8],
           padding: "20px 10px",
           height: "auto",
+          backgroundColor: "transparent",
         }}
       >
         <RiNetflixFill />
@@ -58,6 +59,7 @@ const Header = () => {
               padding: "5px 10px",
               border: "1px solid",
               borderRadius: 4,
+              backgroundColor: "transparent",
             }}
           >
             <HiLanguage />
@@ -71,6 +73,8 @@ const Header = () => {
             <button
               style={{
                 padding: "5px 10px",
+                backgroundColor: "transparent",
+                border: "1px solid ",
               }}
               onClick={onT}
             >
